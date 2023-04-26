@@ -1,0 +1,20 @@
+pipeline{
+    agent any
+    stages{
+        stage('SCM'){
+            steps{
+                git 'https://github.com/Pavankishore4321/Train-Ticket-Reservation-System.git'
+            }
+        }
+        stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('Deploy'){
+            steps{
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://16.16.172.188:8080/')], contextPath: 'pavan', war: '**/*.war'
+            }
+        }
+    }
+}
